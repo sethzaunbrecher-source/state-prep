@@ -140,11 +140,12 @@ const SavedProgress = () => {
         {fetchError && <div>{fetchError}</div>}
         <main className="shadow w-full lg:max-w-3/4 rounded-2xl items-center justify-center px-3 pt-5 md:pt-16 pb-16 bg-white">
           {quizId && parseInt(quizId) < 0 &&
-            <div>
-              <label htmlFor='questionDropdown'>Number of Questions: </label>
+            <div className='flex flex-col justify-center align-middle items-center'>
+              <label className='block mb-2 text-lg font-normal text-gray-900 dark:text-white' htmlFor='questionDropdown'>Number of Questions: </label>
               <select
                 id='questionDropdown'
                 value={selectedValue}
+                className='bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full lg:w-1/2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 onChange={handleSelectChange}>
 
                 <option value={0}>--Select an Option--</option>

@@ -66,7 +66,8 @@ export function Welcome() {
               <span className='font-bold text-xl'>{isRandomHidden ? showIcon : hideIcon} </span>Random Questions
             </div>
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-2 w-full transition-[height] duration-500 ease-in-out overflow-hidden ${isRandomHidden ? 'h-0' : 'h-auto'}`}>
-              <Quiz name="Random" id={-1}/>
+              <Quiz name="Flashcards" id={-2}/>
+              <Quiz name="Random Quiz" id={-1}/>
             </div>
             
             <div onClick={() => setIsQuizHidden(!isQuizHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">

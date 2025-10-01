@@ -16,7 +16,7 @@ interface Questions {
         text: string,
         choiceId: string
     }[],
-    quizzes:{quizName:string}
+    quizzes: { quizName: string }
 }
 
 interface Answer {
@@ -58,7 +58,7 @@ const QuestionCard = ({ }) => {
     }
 
     const fetchRandomQuestions = async (limit: number) => {
-       setIsLoading(true)
+        setIsLoading(true)
         const { data, error } = await supabase
             .from("random_questions")
             .select('*,answers(*),quizzes("quizName")')
@@ -92,7 +92,7 @@ const QuestionCard = ({ }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [widthPercentage, setWidthPercentage] = useState<string>('0%')
     const [shuffledArray, setShuffledArray] = useState<Answer[]>([])
-    const [questionIdArray, setQuestionIdArray]=useState<number[]>([])
+    const [questionIdArray, setQuestionIdArray] = useState<number[]>([])
 
     const handleAnswer = (choiceId: string, correctAnswer: string): void => {
         setIsAnswered(true);
@@ -111,18 +111,25 @@ const QuestionCard = ({ }) => {
 
     const handleNext = (): void => {
         if (questions && currentQuestion + 1 < questions.length) {
-            setCurrentQuestion(currentQuestion=>currentQuestion + 1)
+            setCurrentQuestion(currentQuestion => currentQuestion + 1)
             const myNumber: number = ((currentQuestion / questions.length) * 100)
             const newPercentage: string = myNumber.toFixed(0)
             const myPercentage: string = newPercentage + "%"
             setWidthPercentage(myPercentage)
             setIsAnswered(false)
             setIsLoading(true)
-            handleUpdateProgress(currentQuestion+1, questionIdArray, answers, quizId,correct,incorrect,savedId)
+            if (quizId != -2) {
+                handleUpdateProgress(currentQuestion + 1, questionIdArray, answers, quizId, correct, incorrect, savedId)
+            }
             setIsLoading(false)
         } else {
-            alert(`You scored ${score}/${questions?.length}`)
-            handleSaveProgress()
+            if (quizId != -2) {
+                alert(`You scored ${score}/${questions?.length}`)
+                handleSaveProgress()
+            } else {
+                fetchRandomQuestions(10)
+                setIsAnswered(false)
+            }
         }
     }
 
@@ -188,7 +195,7 @@ const QuestionCard = ({ }) => {
         if (data) {
             setFetchError(null)
             setIsLoading(false)
-           
+
             //delete saved attempt
             handleDeleteProgress()
 
@@ -209,19 +216,19 @@ const QuestionCard = ({ }) => {
             const newAnswers = shuffleAnswers(questions[currentQuestion].answers)
             setShuffledArray(newAnswers)
         }
-        if (currentQuestion > 0) {
+        if (currentQuestion > 0 && quizId != -2) {
             setIsLoading(true)
-            handleUpdateProgress(currentQuestion+1, questionIdArray, answers,quizId,correct,incorrect,savedId)
+            handleUpdateProgress(currentQuestion + 1, questionIdArray, answers, quizId, correct, incorrect, savedId)
             setIsLoading(false)
         }
 
     },
         [currentQuestion, questions])
 
-    useEffect(()=>{
+    useEffect(() => {
         const idArray = questionIds()
         setQuestionIdArray(idArray)
-    },[questions])
+    }, [questions])
     return (
 
 
@@ -235,7 +242,7 @@ const QuestionCard = ({ }) => {
                 <main className="items-center justify-center px-3 pt-5 md:pt-16 pb-4 bg-gray-200 h-screen">
                     <div className="flex justify-center items-center">
                         <div className="w-full max-w-lg bg-white p-5 rounded shadow-lg min-h-3/4">
-                            <button className='p-4 rounded-lg border border-gray-500 w-fit cursor-pointer ' onClick={()=>navigate(-1)}>Go Back</button>
+                            <button className='p-4 rounded-lg border border-gray-500 w-fit cursor-pointer ' onClick={() => navigate(-1)}>Go Back</button>
                             <div className="p-2 text-center font-bold mb-2 text-xl rounded shadow-lg">{questions && questions[currentQuestion].quizzes.quizName}</div>
                             {/* Question Text */}
                             <div>{questions && questions[currentQuestion].questionText} </div>
@@ -255,10 +262,14 @@ const QuestionCard = ({ }) => {
                             }
 
                             <button type="button" onClick={handleNext} disabled={!isAnswered} className={`block w-full p-2 mt-2 rounded border ${!isAnswered ? "bg-gray-300 text-black" : "bg-blue-400 text-white cursor-pointer"}`}>Next Question</button>
-                            <div className=" mt-3 w-full rounded-full h-2.5 bg-gray-300">
-                                <div className="rounded-full h-2.5 bg-blue-400" style={{ width: `${widthPercentage}` }}></div>
-                            </div>
-                            <p className='my-4'>{currentQuestion + 1} / {questions.length}</p>
+                            {quizId != -2 &&
+                                <>
+                                    <div className=" mt-3 w-full rounded-full h-2.5 bg-gray-300">
+                                        <div className="rounded-full h-2.5 bg-blue-400" style={{ width: `${widthPercentage}` }}></div>
+                                    </div>
+                                    <p className='my-4'>{currentQuestion + 1} / {questions.length}</p>
+                                </>
+                            }
 
                         </div>
                     </div>
