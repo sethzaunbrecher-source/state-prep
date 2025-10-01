@@ -72,7 +72,7 @@ const LoginCard = () => {
     return (
         <div className="bg-gray-200 p-4">
             <div className="flex justify-center items-center h-screen">
-                <main className="shadow min-w-1/4 rounded-2xl items-center justify-center px-3 pt-5 md:pt-16 pb-16 bg-white ">
+                <main className="shadow min-w-1/4 w-full lg:w-1/4 rounded-2xl items-center justify-center lg:px-3 pt-5 md:pt-16 pb-16 bg-white ">
                     <h2 className="flex font-bold text-2xl">{userIcon} Login </h2>
                     <hr />
                     {errorMessage && <div className='w-full p-3 rounded-xl bg-red-200 mt-3 text-red-700 text-sm'>{errorMessage}</div>}
