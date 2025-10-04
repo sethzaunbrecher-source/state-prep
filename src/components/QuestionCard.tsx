@@ -17,8 +17,6 @@ interface Questions {
         choiceId: string
     }[],
     quizzes: {
-        id:number,
-        created_at:string,
         quizName: string,
         isNational: boolean
     }
@@ -70,7 +68,7 @@ const QuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error } = await supabase
             .from("random_questions")
-            .select('*,answers(*),quizzes("*")')
+            .select('*,answers(*),quizzes(quizName, isNational)')
             .eq("quizzes.isNational", isNational)
             .limit(limit)
 
@@ -255,7 +253,7 @@ const QuestionCard = ({ }) => {
                     <div className="flex justify-center items-center">
                         <div className="w-full max-w-lg bg-white p-5 rounded shadow-lg min-h-3/4">
                             <button className='p-4 rounded-lg border border-gray-500 w-fit cursor-pointer ' onClick={() => navigate(-1)}>Go Back</button>
-                            <div className="p-2 text-center font-bold mb-2 text-xl rounded shadow-lg">{questions && questions[currentQuestion].quizzes.quizName}</div>
+                            <div className="p-2 text-center font-bold mb-2 text-xl rounded shadow-lg">{questions && questions[currentQuestion].quizzes ? questions[currentQuestion].quizzes.quizName : ""}</div>
                             {/* Question Text */}
                             <div>{questions && questions[currentQuestion].questionText} </div>
                             {/* Map over every question choice */}
