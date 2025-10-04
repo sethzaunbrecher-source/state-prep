@@ -46,7 +46,7 @@ const QuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error } = await supabase
             .from("questions")
-            .select('*,answers(*),quizzes("quizName")')
+            .select('*,answers(*),quizzes("*")')
             .eq("quizId", quizId)
 
         if (error) {
@@ -58,6 +58,7 @@ const QuestionCard = ({ }) => {
 
         if (data) {
             setQuestions(data)
+            console.log(data)
             setCurrentQuestion(0)
             setFetchError(null)
             setIsLoading(false)
@@ -66,8 +67,6 @@ const QuestionCard = ({ }) => {
     }
 
     const fetchRandomQuestions = async (limit: number, isNational: boolean) => {
-        console.log(isNational)
-        console.log(location.state)
         setIsLoading(true)
         const { data, error } = await supabase
             .from("random_questions")
@@ -216,6 +215,7 @@ const QuestionCard = ({ }) => {
 
     useEffect(() => {
         if (quizId < 0) {
+            console.log("random fired")
             fetchRandomQuestions(limit, isNational)
         } else {
             fetchQuestions()
