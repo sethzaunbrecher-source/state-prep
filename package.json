@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "gitall":"git add . && git commit -m 'update' && git push && deploy",
+    "gitall":"git add . && git commit -m 'update' && git push && npm run deploy",
     "build": "vite build && copy .\\dist\\index.html .\\dist\\404.html",
     "lint": "eslint .",
     "preview": "vite preview",
