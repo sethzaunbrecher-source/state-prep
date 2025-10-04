@@ -23,7 +23,7 @@ const CompletedCard: React.FC<myProps> = ({ id, created_at, questions,correctQue
         <div className='flex flex-row justify-between mb-2 bg-gray-200 p-3 shadow-lg rounded cursor-pointer transition-colors border-b-2 border-transparent hover:border-blue-500 w-full'>
         <div>Completed {fromDate}</div>
         {/* <div>{correctQuestion.length} / {questions.length} correct</div> */}
-        <div className={`flex justify-center items-center w-12 h-12 rounded-full text-white font-bold ${correctQuestion.length/questions.length>=.75?'bg-green-400':'bg-red-400'}`}>{correctQuestion.length/questions.length*100}%</div>
+        <div className={`flex justify-center items-center w-12 h-12 rounded-full text-white font-bold ${correctQuestion.length/questions.length>=.75?'bg-green-400':'bg-red-400'}`}>{Math.round(correctQuestion.length/questions.length*100)}%</div>
       </div>
       </Link>
   )
