@@ -2,6 +2,7 @@ import Quiz from "./Quiz";
 import { supabase } from "../database/Supabase";
 import { useEffect, useState } from "react";
 import {useAuth} from '../contexts/AuthContext'
+import SliderSwitch from "../assets/SliderSwitch";
 
 
 export function Welcome() {
@@ -26,15 +27,13 @@ export function Welcome() {
   const [quizzes, setQuizzes] = useState<Quiz[] | null>(null)
   const [isRandomHidden, setIsRandomhidden] = useState<boolean>(false)
   const [isQuizHidden, setIsQuizHidden] = useState<boolean>(false)
+  const [isNational, setIsNational]=useState<boolean>(true)
 
-
-  useEffect(() => {
-
-
-    const fetchQuizzes = async () => {
+ const fetchQuizzes = async () => {
       const { data, error } = await supabase
         .from("quizzes")
         .select()
+        .eq("isNational",isNational)
 
       if (error) {
         setFetchError("could not fetch quizzes")
@@ -47,12 +46,20 @@ export function Welcome() {
         setFetchError(null)
       }
     }
+  useEffect(() => {
     fetchQuizzes()
-
   }, [])
+
+  useEffect(()=>{
+    fetchQuizzes()
+  },[isNational])
 
   const handleSignOut = () => {
     sessionData.signOut()
+  }
+
+  const handleToggle=()=>{
+    setIsNational(!isNational)
   }
 
   return (
@@ -62,12 +69,13 @@ export function Welcome() {
         <main className="shadow w-full lg:max-w-3/4 rounded-2xl items-center justify-center px-3 pt-5 md:pt-16 pb-16 bg-white">
           <div className="flex flex-col items-center justify-center px-3 pt-16 pb-4">
             {fetchError && <div> {fetchError}</div>}
+            <SliderSwitch isNational={isNational} handleToggle={handleToggle}/>
             <div onClick={() => setIsRandomhidden(!isRandomHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">
               <span className='font-bold text-xl'>{isRandomHidden ? showIcon : hideIcon} </span>Random Questions
             </div>
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-2 w-full transition-[height] duration-500 ease-in-out overflow-hidden ${isRandomHidden ? 'h-0' : 'h-auto'}`}>
-              <Quiz name="Flashcards" id={-2}/>
-              <Quiz name="Random Quiz" id={-1}/>
+              <Quiz name="Flashcards" id={-2} isNational={isNational}/>
+              <Quiz name="Random Quiz" id={-1} isNational={isNational}/>
             </div>
             
             <div onClick={() => setIsQuizHidden(!isQuizHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">
@@ -77,7 +85,7 @@ export function Welcome() {
               {quizzes?.
                 filter(q => q.id >= 0)
                 .map((quiz) => (
-                  <Quiz key={quiz.id} name={quiz.quizName} id={quiz.id} />
+                  <Quiz key={quiz.id} name={quiz.quizName} id={quiz.id} isNational={isNational} />
                 )
                 )}
             </div>

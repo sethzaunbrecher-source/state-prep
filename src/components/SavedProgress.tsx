@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams, } from 'react-router'
+import { Link, useLocation, useNavigate, useParams, } from 'react-router'
 import { supabase } from '../database/Supabase'
 import ProgressCard from './ProgressCard'
 import CompletedCard from './CompletedCard'
 
 
-
-
-const SavedProgress = () => {
+const SavedProgress = ({}) => {
 
   const quizId = useParams().id
 
@@ -47,6 +45,8 @@ const SavedProgress = () => {
 
 
   const navigate = useNavigate()
+  const location=useLocation()
+  const isNational=location.state.isNational
 
   const handleNewQuiz = async () => {
     setIsLoading(true)
@@ -72,7 +72,8 @@ const SavedProgress = () => {
       setIsLoading(false)
 
       return navigate({
-        pathname: `/questions/${quizId}/${selectedValue}/${data[0].id}`,
+        pathname: `/questions/${quizId}/${selectedValue}/${data[0].id}`},
+        {state:{isNational:isNational}
       })
 
     }

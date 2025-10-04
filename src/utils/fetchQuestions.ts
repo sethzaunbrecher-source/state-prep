@@ -15,7 +15,9 @@ interface Question {
         text: string,
         choiceId: string
     }[],
-    quizzes: { quizName: string }
+    quizzes: { quizName: string,
+        isNational:boolean
+     }
 }
 
 let fetchError:string|null
@@ -27,7 +29,7 @@ export const fetchQuestions = async (questionIds: number[]|undefined) => {
     if(questionIds){
        const { data, error } = await supabase
        .from("questions")
-       .select('*,answers(*),quizzes("quizName")')
+       .select('*,answers(*),quizzes("quizName, isNational")')
        .in("id", questionIds)
        
        if (error) {

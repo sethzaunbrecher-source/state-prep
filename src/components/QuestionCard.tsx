@@ -1,5 +1,5 @@
 import { useEffect, useState, } from 'react'
-import { Link, useNavigate, useParams, } from 'react-router'
+import { Link, useLocation, useNavigate, useParams, } from 'react-router'
 import { supabase } from '../database/Supabase'
 import { handleUpdateProgress } from '../utils/updateProgress'
 
@@ -16,7 +16,12 @@ interface Questions {
         text: string,
         choiceId: string
     }[],
-    quizzes: { quizName: string }
+    quizzes: {
+        id:number,
+        created_at:string,
+        quizName: string,
+        isNational: boolean
+    }
 }
 
 interface Answer {
@@ -26,9 +31,12 @@ interface Answer {
     choiceId: string
 }
 
+
 const QuestionCard = ({ }) => {
 
     const navigate = useNavigate()
+    const location = useLocation()
+    const isNational: boolean = location.state.isNational
 
     const quizId = Number(useParams().id)
     const limit = Number(useParams().limit)
@@ -57,11 +65,14 @@ const QuestionCard = ({ }) => {
 
     }
 
-    const fetchRandomQuestions = async (limit: number) => {
+    const fetchRandomQuestions = async (limit: number, isNational: boolean) => {
+        console.log(isNational)
+        console.log(location.state)
         setIsLoading(true)
         const { data, error } = await supabase
             .from("random_questions")
-            .select('*,answers(*),quizzes("quizName")')
+            .select('*,answers(*),quizzes("*")')
+            .eq("quizzes.isNational", isNational)
             .limit(limit)
 
         if (error) {
@@ -72,6 +83,7 @@ const QuestionCard = ({ }) => {
         }
 
         if (data) {
+            console.log(data)
             setQuestions(data)
             setCurrentQuestion(0)
             setFetchError(null)
@@ -127,7 +139,7 @@ const QuestionCard = ({ }) => {
                 alert(`You scored ${score}/${questions?.length}`)
                 handleSaveProgress()
             } else {
-                fetchRandomQuestions(10)
+                fetchRandomQuestions(10, isNational)
                 setIsAnswered(false)
             }
         }
@@ -204,7 +216,7 @@ const QuestionCard = ({ }) => {
 
     useEffect(() => {
         if (quizId < 0) {
-            fetchRandomQuestions(limit)
+            fetchRandomQuestions(limit, isNational)
         } else {
             fetchQuestions()
         }

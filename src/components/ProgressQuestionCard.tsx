@@ -17,7 +17,7 @@ interface Questions {
         text: string,
         choiceId: string
     }[],
-    quizzes:{quizName:string}
+    quizzes:{quizName:string, isNational:boolean}
 }
 
 interface Answer {
@@ -50,7 +50,7 @@ const ProgressQuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error }: { data: any; error: any } = await supabase
             .from("saved_attempts")
-            .select('*,quizzes("quizName")')
+            .select('*,quizzes("quizName, isNational")')
             .eq("id", attemptId)
 
         if (error) {
@@ -71,7 +71,7 @@ const ProgressQuestionCard = ({ }) => {
     const fetchQuestions = async (questionIds: number[]) => {
         const { data, error } = await supabase
             .from("questions")
-            .select('*,answers(*),quizzes("quizName")')
+            .select('*,answers(*),quizzes("quizName, isNational")')
             .in("id", [questionIds])
 
         if (error) {

@@ -10,7 +10,7 @@
         text: string,
         choiceId: string
     }[],
-    quizzes:{quizName:string}
+    quizzes:{quizName:string, isNational:boolean}
 }
  
  export const sortQuestions = (questionIds:number[], qs:Question[]|undefined)=>{
