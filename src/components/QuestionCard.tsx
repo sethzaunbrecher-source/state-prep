@@ -18,7 +18,8 @@ interface Questions {
     }[],
     quizzes: {
         quizName: string,
-        isNational: boolean
+        isNational: boolean,
+        id:number
     }
 }
 
@@ -68,7 +69,7 @@ const QuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error } = await supabase
             .from("random_questions")
-            .select('*,answers(*),quizzes(quizName, isNational)')
+            .select('*,answers(*),quizzes!inner(id, quizName, isNational)')
             .eq("quizzes.isNational", isNational)
             .limit(limit)
 
