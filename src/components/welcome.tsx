@@ -42,7 +42,8 @@ export function Welcome() {
       }
 
       if (data) {
-        setQuizzes(data)
+        const sortedData = data.sort((a,b)=>a.id - b.id)
+        setQuizzes(sortedData)
         setFetchError(null)
       }
     }
