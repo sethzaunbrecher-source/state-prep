@@ -36,7 +36,7 @@ interface Attempt {
     quizId: number,
     correctQuestions: number[],
     incorrectQuestions: number[],
-    quizzes: { quizName: string }
+    quizzes: { quizName: string, isNational:boolean }
 
 }
 
@@ -209,7 +209,8 @@ const ProgressQuestionCard = ({ }) => {
                     prevAnswers: answers,
                     quizId: currentAttempt?.quizId,
                     correctQuestions: correct,
-                    incorrectQuestions: incorrect
+                    incorrectQuestions: incorrect,
+                    isNational:currentAttempt?.quizzes.isNational
                 }
             ])
             .select()

@@ -191,7 +191,8 @@ const QuestionCard = ({ }) => {
                     prevAnswers: answers,
                     quizId: quizId,
                     correctQuestions: correct,
-                    incorrectQuestions: incorrect
+                    incorrectQuestions: incorrect,
+                    isNational: isNational
                 }
             ])
             .select()
