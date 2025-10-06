@@ -3,6 +3,7 @@ import { useNavigate, useParams} from 'react-router'
 import { supabase } from '../database/Supabase'
 import { sortQuestions } from '../utils/sortQuestions'
 import { handleUpdateProgress } from '../utils/updateProgress'
+import useAuth from '../contexts/AuthContext'
 
 
 interface Questions {
@@ -43,6 +44,7 @@ interface Attempt {
 const ProgressQuestionCard = ({ }) => {
 
     const navigate = useNavigate()
+    const sessionData = useAuth()
 
     const attemptId = Number(useParams().id)
 
@@ -50,7 +52,7 @@ const ProgressQuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error }: { data: any; error: any } = await supabase
             .from("saved_attempts")
-            .select('*,quizzes("quizName, isNational")')
+            .select('*,quizzes(quizName, isNational)')
             .eq("id", attemptId)
 
         if (error) {
@@ -71,7 +73,7 @@ const ProgressQuestionCard = ({ }) => {
     const fetchQuestions = async (questionIds: number[]) => {
         const { data, error } = await supabase
             .from("questions")
-            .select('*,answers(*),quizzes("quizName, isNational")')
+            .select('*,answers(*),quizzes(quizName, isNational)')
             .in("id", [questionIds])
 
         if (error) {
@@ -210,7 +212,8 @@ const ProgressQuestionCard = ({ }) => {
                     quizId: currentAttempt?.quizId,
                     correctQuestions: correct,
                     incorrectQuestions: incorrect,
-                    isNational:currentAttempt?.quizzes.isNational
+                    isNational:currentAttempt?.quizzes.isNational,
+                    userId: sessionData.session.user.id
                 }
             ])
             .select()

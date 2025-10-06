@@ -11,7 +11,8 @@ import { Link } from 'react-router';
     quizId: number,
     quizName:string,
     corectQuestion:[number],
-    incorrectQuestion:[number]
+    incorrectQuestion:[number],
+    
   }
 
 const ProgressCard: React.FC<myProps> = ({ id, created_at, currentQuestion,questions }): React.ReactNode => {
