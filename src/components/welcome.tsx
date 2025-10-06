@@ -16,6 +16,7 @@ export function Welcome() {
   </svg>
 
   const sessionData = useAuth()
+  
 
   interface Quiz {
     id: number,

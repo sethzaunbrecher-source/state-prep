@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams, } from 'react-router'
 import { supabase } from '../database/Supabase'
 import ProgressCard from './ProgressCard'
 import CompletedCard from './CompletedCard'
+import useAuth from '../contexts/AuthContext'
 
 
 const SavedProgress = ({}) => {
@@ -43,6 +44,8 @@ const SavedProgress = ({}) => {
     }
   }
 
+  const sessionData=useAuth()
+
 
   const navigate = useNavigate()
   const location=useLocation()
@@ -58,7 +61,8 @@ const SavedProgress = ({}) => {
           questions: [],
           prevAnswers: [],
           quizId: quizId,
-          isNational:isNational
+          isNational:isNational,
+          userId:sessionData.session.user.id
         }
       ])
       .select()
@@ -90,6 +94,7 @@ const SavedProgress = ({}) => {
       .select('*,quizzes(*)')
       .eq('quizId', quizId)
       .eq('isNational', isNational)
+      .eq('userId', sessionData.session.user.id)
       .order('created_at', { ascending: true })
 
     if (error) {
@@ -113,6 +118,7 @@ const SavedProgress = ({}) => {
       .select('*,quizzes(*)')
       .eq('quizId', quizId)
       .eq('isNational', isNational)
+      .eq('userId',sessionData.session.user.id)
       .order('created_at', { ascending: false })
 
     if (error) {

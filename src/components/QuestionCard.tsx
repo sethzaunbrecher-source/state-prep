@@ -57,7 +57,6 @@ const QuestionCard = ({ }) => {
 
         if (data) {
             setQuestions(data)
-            console.log(data)
             setCurrentQuestion(0)
             setFetchError(null)
             setIsLoading(false)
@@ -81,7 +80,6 @@ const QuestionCard = ({ }) => {
         }
 
         if (data) {
-            console.log(data)
             setQuestions(data)
             setCurrentQuestion(0)
             setFetchError(null)
@@ -215,7 +213,6 @@ const QuestionCard = ({ }) => {
 
     useEffect(() => {
         if (quizId < 0) {
-            console.log("random fired")
             fetchRandomQuestions(limit, isNational)
         } else {
             fetchQuestions()
