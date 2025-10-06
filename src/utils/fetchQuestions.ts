@@ -29,7 +29,7 @@ export const fetchQuestions = async (questionIds: number[]|undefined) => {
     if(questionIds){
        const { data, error } = await supabase
        .from("questions")
-       .select('*,answers(*),quizzes("quizName, isNational")')
+       .select('*,answers(*),quizzes(quizName, isNational)')
        .in("id", questionIds)
        
        if (error) {

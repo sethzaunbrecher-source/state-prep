@@ -34,7 +34,7 @@ const AnsweredCard = () => {
         setIsLoading(true)
         const { data, error } = await supabase
             .from("questions")
-            .select('*,answers(*),quizzes("quizName")')
+            .select('*,answers(*),quizzes(quizName)')
             .in("id", questionsIds)
 
         if (error) {

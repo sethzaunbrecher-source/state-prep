@@ -44,7 +44,7 @@ interface Question {
         setIsLoading(true)
         const { data, error } = await supabase.
             from('completed_attempts')
-            .select('*, quizzes("quizName")')
+            .select('*, quizzes(quizName)')
             .eq('id', resultId)
 
 
