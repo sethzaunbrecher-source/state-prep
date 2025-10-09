@@ -20,6 +20,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Copy Index to 404
+        run: cp dist/index.html dist/404.html
+
       # Example: Building a project that uses the Supabase API Key
       - name: Build project
         run: npm run build
