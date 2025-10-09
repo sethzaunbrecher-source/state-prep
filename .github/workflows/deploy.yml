@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or your main branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (if applicable for your project)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Or your required Node.js version
+
+      # Example: Building a project that uses the Supabase API Key
+      - name: Build project
+        run: npm run build
+        env:
+          # You can also define environment variables directly in the step's env block
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL}}
+          VITE_SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Or your build output directory

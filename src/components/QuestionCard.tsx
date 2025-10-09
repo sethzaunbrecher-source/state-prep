@@ -2,6 +2,7 @@ import { useEffect, useState, } from 'react'
 import { Link, useLocation, useNavigate, useParams, } from 'react-router'
 import { supabase } from '../database/Supabase'
 import { handleUpdateProgress } from '../utils/updateProgress'
+import useAuth from '../contexts/AuthContext'
 
 
 interface Questions {
@@ -40,6 +41,7 @@ const QuestionCard = ({ }) => {
     const quizId = Number(useParams().id)
     const limit = Number(useParams().limit)
     const savedId = Number(useParams().savedId)
+    const sessionData = useAuth()
 
     const fetchQuestions = async () => {
         setIsLoading(true)
@@ -190,7 +192,8 @@ const QuestionCard = ({ }) => {
                     quizId: quizId,
                     correctQuestions: correct,
                     incorrectQuestions: incorrect,
-                    isNational: isNational
+                    isNational: isNational,
+                    userId: sessionData.session.user.id
                 }
             ])
             .select()
