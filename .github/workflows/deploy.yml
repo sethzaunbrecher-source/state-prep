@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: '20' # Or your required Node.js version
 
+      - name: Install Dependencies
+        run: npm install
+
       # Example: Building a project that uses the Supabase API Key
       - name: Build project
         run: npm run build
