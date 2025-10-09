@@ -1,12 +1,11 @@
 import {createClient} from '@supabase/supabase-js'
 
-let supaBaseUrl:string="xxx"
+const supaBaseUrl:string= import.meta.env.VITE_SUPABASE_URL
 let supaBaseKey:string="xxx"
 
 console.log(import.meta.env)
 if(import.meta.env.MODE=='development'){
 
-   supaBaseUrl= import.meta.env.VITE_SUPABASE_URL
    supaBaseKey= import.meta.env.VITE_SUPABASE_KEY
    
 }
