@@ -1,5 +1,4 @@
 name: Deploy to GitHub Pages
-
 on:
   push:
     branches:
@@ -36,7 +35,8 @@ jobs:
           VITE_SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./dist # Or your build output directory
+          branch: gh-pages
+        #   github_token: ${{ secrets.GH_TOKEN }}
+          folder: ./dist # Or your build output directory
