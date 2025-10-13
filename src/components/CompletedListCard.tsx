@@ -22,24 +22,24 @@ const CompletedListCard = () => {
         quizzes: { quizName: string }
 
     }
-interface Question {
-    id: number,
-    created_at: string,
-    questionText: string,
-    correctAnswerId: string,
-    quizId: number,
-    answers: {
+    interface Question {
         id: number,
-        qId: number,
-        text: string,
-        choiceId: string
-    }[],
-    quizzes: { quizName: string }
-}
+        created_at: string,
+        questionText: string,
+        correctAnswerId: string,
+        quizId: number,
+        answers: {
+            id: number,
+            qId: number,
+            text: string,
+            choiceId: string
+        }[],
+        quizzes: { quizName: string }
+    }
     const [fetchError, setFetchError] = useState<any>()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [result, setResult] = useState<Result | null>(null)
-    const [questions, setQuestions]=useState<Question[]|undefined>(undefined)
+    const [questions, setQuestions] = useState<Question[] | undefined>(undefined)
 
     //fetch results
     const fetchResult = async () => {
@@ -67,9 +67,9 @@ interface Question {
     }
 
     //fetch questions
-    const getQuestions = async()=>{
+    const getQuestions = async () => {
         setIsLoading(true)
-        if (result){
+        if (result) {
             const fetchData = await fetchQuestions(result.questions)
             setFetchError(fetchData?.error)
             setQuestions(fetchData?.data)
@@ -83,12 +83,12 @@ interface Question {
         getQuestions()
         setIsLoading(false)
     }, [])
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setIsLoading(true)
         getQuestions()
         setIsLoading(false)
-    },[result])
+    }, [result])
 
     return (
         <div className="bg-gray-200 p-4">
@@ -101,7 +101,7 @@ interface Question {
                         <button className='p-4 rounded-lg border border-gray-500 w-fit cursor-pointer ' onClick={() => navigate(-1)}>Go Back</button>
                         <div className="w-full p-5 rounded  min-h-3/4 font-bold text-xl bg-white">
                             {result?.quizzes.quizName}
-                            <div className="font-normal grid grid-cols-1 lg:grid-cols-5">
+                            <div className="font-normal grid grid-cols-1 lg:grid-cols-2">
                                 {result?.questions.map((question, index) => (
 
                                     <Link to={`/answered/${resultId}`}
@@ -111,18 +111,17 @@ interface Question {
                                                 selectedAnswers: result.prevAnswers,
                                                 questions: result.questions
                                             }}
-                                            key={index}
-                                            className="m-2"
+                                        key={index}
+                                        className="m-2"
                                     >
                                         <div className='flex flex-row  items-center mb-2 bg-gray-200 p-3 shadow-lg rounded cursor-pointer transition-colors border-b-2 border-transparent hover:border-blue-500  text-sm lg:text-lg'>
-                                            <div className={`cursor-pointer w-10 h-10 rounded-full flex m-2 justify-center align-middle items-center ${result.incorrectQuestions.includes(question) ? 'bg-red-300' : 'bg-green-300'}`} >
+                                            <div className={`cursor-pointer min-w-10 min-h-10 rounded-full flex m-2 justify-center align-middle items-center ${result.incorrectQuestions.includes(question) ? 'bg-red-300' : 'bg-green-300'}`} >
 
                                                 {index + 1}
                                             </div>
-                                            {questions && questions[index].questionText.length >= 25?
-                                             `${questions?.[index].questionText.slice(0,25)}....`:
-                                             `${questions?.[index].questionText}`
-                                            }
+                                            <div className='truncate'>
+                                                    {questions?.[index].questionText}
+                                            </div>
                                         </div>
                                     </Link>
                                 ))}
