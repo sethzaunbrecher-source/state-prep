@@ -97,7 +97,7 @@ const AnsweredCard = () => {
             <div className="bg-gray-200 p-4">
                 <Link to="/"><div className='p-4 rounded-lg border border-gray-500 w-fit '>Go Home</div></Link>
                 {fetchError && <div>{fetchError}</div>}
-                <main className="items-center justify-center px-3 pt-5 md:pt-16 pb-4 bg-gray-200 h-screen">
+                <main className="items-center justify-center px-3 pt-5 md:pt-16 pb-4 bg-gray-200 min-h-screen">
                     <div className="flex justify-center items-center">
                         <div className="w-full max-w-lg bg-white p-5 rounded shadow-lg min-h-3/4">
                             <button className='p-4 rounded-lg border border-gray-500 w-fit cursor-pointer ' onClick={() => navigate(-1)}>Go Back</button>

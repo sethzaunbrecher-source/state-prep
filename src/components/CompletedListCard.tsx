@@ -112,7 +112,7 @@ interface Question {
                                             </div>
                                             {questions && questions[index].questionText.length >= 25?
                                             `${questions?.[index].questionText.slice(0,25)}...`:
-                                            questions?.[index].questionText}
+                                            `${questions?.[index].questionText}`}
                                             
                                         </div>
                                     </Link>
