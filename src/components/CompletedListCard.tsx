@@ -115,9 +115,10 @@ interface Question {
 
                                                 {index + 1}
                                             </div>
-                                            {questions && questions[index].questionText.length >= 25?
-                                            `${questions?.[index].questionText.slice(0,25)}...`:
-                                            `${questions?.[index].questionText}`}
+                                            {/* {questions && questions[index].questionText.length >= 25? */}
+                                            {`${questions?.[index].questionText.slice(0,25)}...`}
+                                            {/* : */}
+                                            {/* `${questions?.[index].questionText}`} */}
                                             
                                         </div>
                                     </Link>
