@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { supabase } from '../database/Supabase'
 import { fetchQuestions } from '../utils/fetchQuestions'
+import useAuth from '../contexts/AuthContext'
 
 const CompletedListCard = () => {
+    const sessionData = useAuth()
 
     const navigate = useNavigate()
     const resultId = useParams().id
@@ -46,6 +48,7 @@ interface Question {
             from('completed_attempts')
             .select('*, quizzes(quizName)')
             .eq('id', resultId)
+            .eq('user_id', sessionData.session.user.id)
 
 
         if (error) {
@@ -66,20 +69,21 @@ interface Question {
     //fetch questions
     const getQuestions = async()=>{
         setIsLoading(true)
-        const fetchData = await fetchQuestions(result?.questions)
-        setFetchError(fetchData.error)
-        setQuestions(fetchData.data)
-        setIsLoading(false)
-        console.log(fetchData)
+        if (result){
+            const fetchData = await fetchQuestions(result.questions)
+            setFetchError(fetchData?.error)
+            setQuestions(fetchData?.data)
+            setIsLoading(false)
+        }
     }
 
     useEffect(() => {
         setIsLoading(true)
         fetchResult()
-        //getQuestions()
+        getQuestions()
         setIsLoading(false)
     }, [])
-
+    
     useEffect(()=>{
         setIsLoading(true)
         getQuestions()
@@ -115,11 +119,10 @@ interface Question {
 
                                                 {index + 1}
                                             </div>
-                                            {/* {questions && questions[index].questionText.length >= 25? */}
-                                            {`${questions?.[index].questionText.slice(0,25)}...`}
-                                            {/* : */}
-                                            {/* `${questions?.[index].questionText}`} */}
-                                            
+                                            {questions && questions[index].questionText.length >= 25?
+                                             `${questions?.[index].questionText.slice(0,25)}....`:
+                                             `${questions?.[index].questionText}`
+                                            }
                                         </div>
                                     </Link>
                                 ))}
