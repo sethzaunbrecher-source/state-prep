@@ -70,15 +70,20 @@ interface Question {
         setFetchError(fetchData.error)
         setQuestions(fetchData.data)
         setIsLoading(false)
+        console.log(fetchData)
     }
 
     useEffect(() => {
+        setIsLoading(true)
         fetchResult()
-        getQuestions()
+        //getQuestions()
+        setIsLoading(false)
     }, [])
 
     useEffect(()=>{
+        setIsLoading(true)
         getQuestions()
+        setIsLoading(false)
     },[result])
 
     return (
