@@ -1,8 +1,8 @@
 import AnsweredCard from "../components/AnsweredCard";
-import type { Route } from ".react-router/types/app/routes/+types/home";
 
 
-export function meta({}: Route.MetaArgs) {
+
+export function meta({}) {
   return [
     { title: "Nursing Home Admin Practice Exams" },
   ];

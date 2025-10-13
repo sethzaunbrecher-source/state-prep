@@ -21,7 +21,7 @@ const Quiz: React.FC<myProps> = ({ name, id, isNational }): React.ReactNode => {
     <button onClick={() => {
       navigate({
         pathname: mypath,
-        search: `${name}`
+        // search: `${name}`
       },
         { state: { isNational: isNational } }
       )

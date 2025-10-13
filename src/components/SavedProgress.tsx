@@ -62,7 +62,7 @@ const SavedProgress = ({}) => {
           prevAnswers: [],
           quizId: quizId,
           isNational:isNational,
-          userId:sessionData.session.user.id
+          user_id:sessionData.session.user.id
         }
       ])
       .select()
@@ -94,7 +94,7 @@ const SavedProgress = ({}) => {
       .select('*,quizzes(*)')
       .eq('quizId', quizId)
       .eq('isNational', isNational)
-      .eq('userId', sessionData.session.user.id)
+      .eq('user_id', sessionData.session.user.id)
       .order('created_at', { ascending: true })
 
     if (error) {
@@ -118,7 +118,7 @@ const SavedProgress = ({}) => {
       .select('*,quizzes(*)')
       .eq('quizId', quizId)
       .eq('isNational', isNational)
-      .eq('userId',sessionData.session.user.id)
+      .eq('user_id',sessionData.session.user.id)
       .order('created_at', { ascending: false })
 
     if (error) {

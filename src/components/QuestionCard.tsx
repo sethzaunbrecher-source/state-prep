@@ -193,7 +193,7 @@ const QuestionCard = ({ }) => {
                     correctQuestions: correct,
                     incorrectQuestions: incorrect,
                     isNational: isNational,
-                    userId: sessionData.session.user.id
+                    user_id: sessionData.session.user.id
                 }
             ])
             .select()

@@ -1,7 +1,7 @@
 import Quiz from "./Quiz";
 import { supabase } from "../database/Supabase";
 import { useEffect, useState } from "react";
-import {useAuth} from '../contexts/AuthContext'
+import { useAuth } from '../contexts/AuthContext'
 import SliderSwitch from "../assets/SliderSwitch";
 
 
@@ -16,7 +16,6 @@ export function Welcome() {
   </svg>
 
   const sessionData = useAuth()
-  
 
   interface Quiz {
     id: number,
@@ -28,39 +27,41 @@ export function Welcome() {
   const [quizzes, setQuizzes] = useState<Quiz[] | null>(null)
   const [isRandomHidden, setIsRandomhidden] = useState<boolean>(false)
   const [isQuizHidden, setIsQuizHidden] = useState<boolean>(false)
-  const [isNational, setIsNational]=useState<boolean>(true)
+  const [isNational, setIsNational] = useState<boolean>(false)
 
- const fetchQuizzes = async () => {
-      const { data, error } = await supabase
-        .from("quizzes")
-        .select()
-        .eq("isNational",isNational)
+  const fetchQuizzes = async () => {
+   
 
-      if (error) {
-        setFetchError("could not fetch quizzes")
-        setQuizzes(null)
-        console.error(error)
-      }
+    const { data, error } = await supabase
+      .from("quizzes")
+      .select()
+      .eq("isNational", isNational)
 
-      if (data) {
-        const sortedData = data.sort((a,b)=>a.id - b.id)
-        setQuizzes(sortedData)
-        setFetchError(null)
-      }
+    if (error) {
+      setFetchError("could not fetch quizzes")
+      setQuizzes(null)
+      console.error(error)
     }
+
+    if (data) {
+      const sortedData = data.sort((a, b) => a.id - b.id)
+      setQuizzes(sortedData)
+      setFetchError(null)
+    }
+  }
   useEffect(() => {
     fetchQuizzes()
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchQuizzes()
-  },[isNational])
+  }, [isNational])
 
   const handleSignOut = () => {
     sessionData.signOut()
   }
 
-  const handleToggle=()=>{
+  const handleToggle = () => {
     setIsNational(!isNational)
   }
 
@@ -71,15 +72,15 @@ export function Welcome() {
         <main className="shadow w-full lg:max-w-3/4 rounded-2xl items-center justify-center px-3 pt-5 md:pt-16 pb-16 bg-white">
           <div className="flex flex-col items-center justify-center px-3 pt-16 pb-4">
             {fetchError && <div> {fetchError}</div>}
-            <SliderSwitch isNational={isNational} handleToggle={handleToggle}/>
+            <SliderSwitch isNational={isNational} handleToggle={handleToggle} />
             <div onClick={() => setIsRandomhidden(!isRandomHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">
               <span className='font-bold text-xl'>{isRandomHidden ? showIcon : hideIcon} </span>Random Questions
             </div>
             <div className={`grid grid-cols-1 lg:grid-cols-2 gap-2 w-full transition-[height] duration-500 ease-in-out overflow-hidden ${isRandomHidden ? 'h-0' : 'h-auto'}`}>
-              <Quiz name="Flashcards" id={-2} isNational={isNational}/>
-              <Quiz name="Random Quiz" id={-1} isNational={isNational}/>
+              <Quiz name="Flashcards" id={-2} isNational={isNational} />
+              <Quiz name="Random Quiz" id={-1} isNational={isNational} />
             </div>
-            
+
             <div onClick={() => setIsQuizHidden(!isQuizHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">
               <span className='font-bold text-xl'>{isQuizHidden ? showIcon : hideIcon} </span>Quizzes
             </div>

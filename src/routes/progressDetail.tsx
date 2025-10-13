@@ -1,7 +1,6 @@
-import type { Route } from ".react-router/types/app/routes/+types/home";
-import ProgressDetailCard from "public/components/ProgressQuestionCard";
+import ProgressQuestionCard from "../components/ProgressQuestionCard";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({}) {
   return [
     { title: "Nursing Home Admin Practice Exams" },
   ];
@@ -9,6 +8,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function ProgressDetail() {
 
-  return <ProgressDetailCard />;
+  return <ProgressQuestionCard />;
   
 }

@@ -1,7 +1,6 @@
-import type { Route } from ".react-router/types/app/routes/+types/home";
-import SavedProgress from "public/components/SavedProgress";
+import SavedProgress from "../components/SavedProgress";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({}) {
   return [
     { title: "Nursing Home Admin Practice Exams" },
   ];

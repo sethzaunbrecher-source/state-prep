@@ -1,7 +1,7 @@
-import type { Route } from ".react-router/types/app/routes/+types/home";
-import { Welcome } from "../welcome/welcome";
 
-export function meta({}: Route.MetaArgs) {
+import { Welcome } from "../components/welcome";
+
+export function meta({}) {
   return [
     { title: "Nursing Home Admin Practice Exams" },
     //{ name: "description", content: "Welcome to React Router!" },

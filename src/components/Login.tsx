@@ -62,9 +62,10 @@ const LoginCard = () => {
         const password: string = formData.get("password") as string;
 
         const loggedInUser = await loginWithEmail(email, password)
+        
         if (loggedInUser) {
             navigate("/")
-        }
+        } 
 
     }
 

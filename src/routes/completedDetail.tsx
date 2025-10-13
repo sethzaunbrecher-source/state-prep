@@ -1,7 +1,6 @@
-import type { Route } from ".react-router/types/app/routes/+types/home";
-import CompletedListCard from "public/components/CompletedListCard";
+import CompletedListCard from "../components/CompletedListCard";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({}) {
   return [
     { title: "Nursing Home Admin Practice Exams" },
   ];
