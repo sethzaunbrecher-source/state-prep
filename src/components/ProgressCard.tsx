@@ -20,7 +20,9 @@ const ProgressCard: React.FC<myProps> = ({ id, created_at, currentQuestion,quest
     const dateObject = new Date(created_at)
     const fromDate= moment(dateObject).fromNow()
   return (
-    <Link to={{pathname:`/progressdetail/${id}`}}>
+    <Link to={
+      {pathname:`/progressdetail/${id}`}
+      }>
         <div className='flex flex-row justify-between mb-2 bg-gray-200 p-3 shadow-lg rounded cursor-pointer transition-colors border-b-2 border-transparent hover:border-blue-500 w-full'>
         <div>Started {fromDate}</div>
         <div>{currentQuestion} / {questions.length} answered</div>

@@ -45,8 +45,12 @@ const ProgressQuestionCard = ({ }) => {
 
     const navigate = useNavigate()
     const sessionData = useAuth()
-    const location = useLocation()
-    const isNational: boolean = location.state.isNational
+    // const location = useLocation()
+    let isNational: boolean = false
+
+    // if(location.state.isNational){
+    //     isNational=location.state.isNational
+    // }
 
     const attemptId = Number(useParams().id)
 
