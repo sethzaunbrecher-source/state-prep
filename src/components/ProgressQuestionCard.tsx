@@ -1,5 +1,5 @@
 import  { useEffect, useState} from 'react'
-import { useNavigate, useParams} from 'react-router'
+import { useLocation, useNavigate, useParams} from 'react-router'
 import { supabase } from '../database/Supabase'
 import { sortQuestions } from '../utils/sortQuestions'
 import { handleUpdateProgress } from '../utils/updateProgress'
@@ -37,7 +37,7 @@ interface Attempt {
     quizId: number,
     correctQuestions: number[],
     incorrectQuestions: number[],
-    quizzes: { quizName: string, isNational:boolean }
+    quizzes: { quizName: string }
 
 }
 
@@ -45,6 +45,8 @@ const ProgressQuestionCard = ({ }) => {
 
     const navigate = useNavigate()
     const sessionData = useAuth()
+    const location = useLocation()
+    const isNational: boolean = location.state.isNational
 
     const attemptId = Number(useParams().id)
 
@@ -52,7 +54,7 @@ const ProgressQuestionCard = ({ }) => {
         setIsLoading(true)
         const { data, error }: { data: any; error: any } = await supabase
             .from("saved_attempts")
-            .select('*,quizzes(quizName, isNational)')
+            .select('*,quizzes(quizName)')
             .eq("id", attemptId)
 
         if (error) {
@@ -212,7 +214,7 @@ const ProgressQuestionCard = ({ }) => {
                     quizId: currentAttempt?.quizId,
                     correctQuestions: correct,
                     incorrectQuestions: incorrect,
-                    isNational:currentAttempt?.quizzes.isNational,
+                    isNational:isNational,
                     user_id: sessionData.session.user.id
                 }
             ])
