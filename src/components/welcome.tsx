@@ -2,7 +2,7 @@ import Quiz from "./Quiz";
 import { supabase } from "../database/Supabase";
 import { useEffect, useState } from "react";
 import { useAuth } from '../contexts/AuthContext'
-import SliderSwitch from "../assets/SliderSwitch";
+// import SliderSwitch from "../assets/SliderSwitch";
 
 
 export function Welcome() {
@@ -27,7 +27,8 @@ export function Welcome() {
   const [quizzes, setQuizzes] = useState<Quiz[] | null>(null)
   const [isRandomHidden, setIsRandomhidden] = useState<boolean>(false)
   const [isQuizHidden, setIsQuizHidden] = useState<boolean>(false)
-  const [isNational, setIsNational] = useState<boolean>(false)
+  // const [isNational, setIsNational] = useState<boolean>(false)
+  const isNational:boolean = false
 
   const fetchQuizzes = async () => {
    
@@ -61,9 +62,9 @@ export function Welcome() {
     sessionData.signOut()
   }
 
-  const handleToggle = () => {
-    setIsNational(!isNational)
-  }
+  // const handleToggle = () => {
+  //   setIsNational(!isNational)
+  // }
 
   return (
     <div className="bg-gray-200 p-4">
@@ -72,7 +73,7 @@ export function Welcome() {
         <main className="shadow w-full lg:max-w-3/4 rounded-2xl items-center justify-center px-3 pt-5 md:pt-16 pb-16 bg-white">
           <div className="flex flex-col items-center justify-center px-3 pt-16 pb-4">
             {fetchError && <div> {fetchError}</div>}
-            <SliderSwitch isNational={isNational} handleToggle={handleToggle} />
+            {/* <SliderSwitch isNational={isNational} handleToggle={handleToggle} /> */}
             <div onClick={() => setIsRandomhidden(!isRandomHidden)} className="p-2 text-center font-bold mb-2 text-xl rounded flex justify-center cursor-pointer">
               <span className='font-bold text-xl'>{isRandomHidden ? showIcon : hideIcon} </span>Random Questions
             </div>
